@@ -171,7 +171,7 @@ console.log(loc);
 
 
     speechSynthesis.speak(new SpeechSynthesisUtterance("The nearest toilet is"));
-    speechSynthesis.speak(new SpeechSynthesisUtterance(Session.get('dest')));
+    speechSynthesis.speak(new SpeechSynthesisUtterance(Math.floor(Session.get('dest'))));
 
 
     //speechSynthesis.speak(new SpeechSynthesisUtterance("311"));
