@@ -155,7 +155,7 @@ if (Meteor.isClient) {
 
 console.log(loc);
 
-    speechSynthesis.speak(new SpeechSynthesisUtterance("Your current locations is"));
+    speechSynthesis.speak(new SpeechSynthesisUtterance("Your current location is"));
     speechSynthesis.speak(new SpeechSynthesisUtterance(Session.get('loci')));
 
     Meteor.call('findNearest',location[0], location[1], function(err, response) {
@@ -165,16 +165,20 @@ console.log(loc);
           Session.set('dest', response);
       });
 
-console.log("here");
-    console.log(Session.get('dest'));
+
+    console.log((Session.get('dest')));
 
 
 
     speechSynthesis.speak(new SpeechSynthesisUtterance("The nearest toilet is"));
-    speechSynthesis.speak(new SpeechSynthesisUtterance(Session.get('dist')));
-    speechSynthesis.speak(new SpeechSynthesisUtterance("311"));
+    speechSynthesis.speak(new SpeechSynthesisUtterance(Session.get('dest')));
+
+
+    //speechSynthesis.speak(new SpeechSynthesisUtterance("311"));
     speechSynthesis.speak(new SpeechSynthesisUtterance("meters away"));
  
+
+
 
     /*var marker = new google.maps.Marker({
       position: new google.maps.LatLng(Session.get('dest')[1], Session.get('dest')[0]),
