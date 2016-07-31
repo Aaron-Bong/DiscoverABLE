@@ -70,6 +70,8 @@ if (Meteor.isServer){
 
       var pd_old = 100000;
       var closest = 100000;
+      var new_coords = [100,100];
+      var dist = 100;
 
       var deta = Toilets.find().fetch();
       //console.log(deta[10].geometry.coordinates[0]);
@@ -90,25 +92,30 @@ if (Meteor.isServer){
 
           pd_old = pd;
           closest = i;
+          new_coords = Toilet_coords;
+          dist = pd;
           
         }
       }
+
 
      // var source = new Proj4js.Proj("EPSG:4326");    //source coordinates will be in Longitude/Latitude
       //var dest = new Proj4js.Proj("EPSG:27563");
 
 
+      console.log("return");
+      return dist;
 
 
-      console.log(sourceP);
-      console.log(destinP);
-      console.log(deta[i].geometry.coordinates[0][0]);
+      //console.log(sourceP);
+      //console.log(destinP);
+      //console.log(deta[i].geometry.coordinates[0][0]);
 
-      console.log(proj4(sourceP,destinP, Toilets.find().fetch()[119].geometry.coordinates[0][0]));
+      //console.log(proj4(sourceP,destinP, Toilets.find().fetch()[119].geometry.coordinates[0][0]));
       //proj4(fromProjection[, toProjection2, deta[i].geometry.coordinates[0]])
 
-      console.log(pd_old);
-      console.log(closest);
+      //console.log(pd_old);
+      //console.log(closest);
 
       },
 
@@ -148,13 +155,33 @@ if (Meteor.isClient) {
 
 console.log(loc);
 
-    //speechSynthesis.speak(new SpeechSynthesisUtterance(Session.get('loci')));
+    speechSynthesis.speak(new SpeechSynthesisUtterance("Your current locations is"));
+    speechSynthesis.speak(new SpeechSynthesisUtterance(Session.get('loci')));
 
     Meteor.call('findNearest',location[0], location[1], function(err, response) {
           //loc = response;
           //Session.set('loci', response[0].formattedAddress);
           console.log(response);
+          Session.set('dest', response);
       });
+
+console.log("here");
+    console.log(Session.get('dest'));
+
+
+
+    speechSynthesis.speak(new SpeechSynthesisUtterance("The nearest toilet is"));
+    speechSynthesis.speak(new SpeechSynthesisUtterance(Session.get('dist')));
+    speechSynthesis.speak(new SpeechSynthesisUtterance("311"));
+    speechSynthesis.speak(new SpeechSynthesisUtterance("meters away"));
+ 
+
+    /*var marker = new google.maps.Marker({
+      position: new google.maps.LatLng(Session.get('dest')[1], Session.get('dest')[0]),
+      map: GoogleMaps.maps.instance
+    });*/
+
+    console.log(marker);
 
      // var loc = GoogleMaps.Geocode(location);
       //GeocoderRequest(Geolocation.latLng());//"ha";//Geocoder(GeocoderRequest(Geolocation.latLng()));
